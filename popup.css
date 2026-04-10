@@ -1,0 +1,238 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 280px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #ffffff;
+  color: #333;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  background: #4A90D9;
+  color: white;
+}
+
+.logo {
+  width: 34px;
+  height: 34px;
+  margin-right: 10px;
+}
+
+.header-text h1 {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 1px;
+}
+
+/* ---- Enable toggle row ---- */
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.status-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  transition: background 0.25s;
+  border-radius: 24px;
+}
+
+.slider::before {
+  position: absolute;
+  content: '';
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: transform 0.25s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4A90D9;
+}
+
+input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+/* ---- Stats ---- */
+.stats {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #4A90D9;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #777;
+}
+
+/* ---- Buttons ---- */
+.buttons {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn {
+  width: 100%;
+  padding: 9px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: filter 0.15s;
+}
+
+.btn:hover {
+  filter: brightness(0.93);
+}
+
+.btn-primary {
+  background: #4A90D9;
+  color: white;
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+
+/* ---- Language row ---- */
+.lang-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid #eee;
+  gap: 8px;
+}
+
+.lang-label {
+  font-size: 12px;
+  color: #777;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.lang-select {
+  flex: 1;
+  max-width: 180px;
+  font-size: 12px;
+  padding: 4px 6px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  background: #fff;
+  color: #333;
+}
+
+.lang-select:hover,
+.lang-select:focus {
+  border-color: #4A90D9;
+}
+
+/* ---- Theme toggle row ---- */
+.theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px 12px;
+  border-top: 1px solid #eee;
+  gap: 8px;
+}
+
+.theme-label {
+  font-size: 12px;
+  color: #777;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.theme-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.theme-icon { font-size: 14px; line-height: 1; }
+
+/* ---- Dark mode ---- */
+html[data-theme="dark"] body { background: #1f2937; color: #f3f4f6; }
+
+html[data-theme="dark"] .status-row { border-bottom-color: #374151; }
+html[data-theme="dark"] .status-label { color: #f3f4f6; }
+
+html[data-theme="dark"] .stats { border-bottom-color: #374151; }
+html[data-theme="dark"] .stat-number { color: #60a5fa; }
+html[data-theme="dark"] .stat-label { color: #9ca3af; }
+
+html[data-theme="dark"] .btn-secondary { background: #374151; color: #f3f4f6; }
+
+html[data-theme="dark"] .lang-row { border-top-color: #374151; }
+html[data-theme="dark"] .lang-label { color: #9ca3af; }
+html[data-theme="dark"] .lang-select {
+  border-color: #374151;
+  background: #111827;
+  color: #f3f4f6;
+}
+
+html[data-theme="dark"] .theme-row { border-top-color: #374151; }
+html[data-theme="dark"] .theme-label { color: #9ca3af; }
+
+html[data-theme="dark"] .slider { background-color: #374151; }
+html[data-theme="dark"] input:checked + .slider { background-color: #4A90D9; }

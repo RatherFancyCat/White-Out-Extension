@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="extension-name">Corretor Branco</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="header">
+    <img src="icons/icon48.png" alt="Corretor Branco" class="logo">
+    <div class="header-text">
+      <h1 data-i18n="extension-name">Corretor Branco</h1>
+      <p class="subtitle" data-i18n="popup-subtitle">Corretor Ortográfico</p>
+    </div>
+  </div>
+
+  <div class="status-row">
+    <span class="status-label" data-i18n="popup-status-active">Ativo</span>
+    <label class="toggle">
+      <input type="checkbox" id="enabledToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-number" id="wordCount">0</span>
+      <span class="stat-label" data-i18n="popup-stat-label">pares de palavras carregados</span>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button id="openOptions" class="btn btn-primary" data-i18n="popup-btn-manage">&#128221; Gerir Palavras</button>
+    <button id="openSandbox" class="btn btn-secondary" data-i18n="popup-btn-sandbox">&#129514; Área de Teste</button>
+  </div>
+
+  <div class="lang-row">
+    <span class="lang-label" data-i18n="popup-lang-label">Idioma</span>
+    <select id="langSelect" class="lang-select">
+      <option value="pt">🇵🇹 Português</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="es">🇪🇸 Español</option>
+      <option value="fr">🇫🇷 Français</option>
+      <option value="de">🇩🇪 Deutsch</option>
+      <option value="zh">🇨🇳 中文</option>
+    </select>
+  </div>
+
+  <div class="theme-row">
+    <span class="theme-label" data-i18n="popup-theme-label">Tema</span>
+    <div class="theme-icons">
+      <span class="theme-icon">☀️</span>
+      <label class="toggle">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+      </label>
+      <span class="theme-icon">🌙</span>
+    </div>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

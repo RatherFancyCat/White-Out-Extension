@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="extension-sandbox-title">Corretor Branco – Área de Teste</title>
+  <link rel="stylesheet" href="sandbox.css">
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+      <img src="icons/icon48.png" alt="" class="logo">
+      <div>
+        <h1 data-i18n="extension-name">Corretor Branco</h1>
+        <p data-i18n="sandbox-subtitle">Teste as suas correções ortográficas em tempo real</p>
+      </div>
+      <button id="headerThemeToggle" class="header-theme-toggle" title="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="split-layout">
+
+      <!-- Left: test area -->
+      <section class="card flex-grow">
+        <div class="section-header">
+          <h2 data-i18n="sandbox-area-h2">Área de Teste</h2>
+          <button id="clearTextBtn" class="btn btn-sm btn-secondary" data-i18n="sandbox-btn-clear">Limpar</button>
+        </div>
+        <p class="hint" data-i18n="sandbox-hint">
+          Escreva texto abaixo. As palavras são corrigidas automaticamente ao escrever
+          um espaço ou pontuação depois delas.
+        </p>
+        <div class="textarea-wrapper">
+          <textarea id="testArea" data-i18n-placeholder="sandbox-area-ph"
+            placeholder="Comece a escrever aqui… ex: escreva uma palavra com erro e prima Espaço." spellcheck="false"
+            autocorrect="off" autocomplete="off" autocapitalize="off"></textarea>
+        </div>
+
+        <div class="correction-log">
+          <h3 data-i18n="sandbox-log-h3">Correções aplicadas</h3>
+          <ul id="correctionLog">
+            <li class="no-corrections" data-i18n="sandbox-no-corrections">Ainda sem correções</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Right: active word list -->
+      <section class="card word-list-panel">
+        <div class="panel-header">
+          <h2 data-i18n="sandbox-active-h2">Correções ativas</h2>
+          <span id="wordCount" class="badge">0</span>
+        </div>
+        <div id="wordListContainer">
+          <p class="no-words">
+            <span data-i18n="sandbox-no-words">Nenhum par de palavras carregado.</span>
+            <a href="#" id="goToOptions" data-i18n="sandbox-go-options">Adicione palavras na página de opções.</a>
+          </p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Super Secret Options (revealed when achievement rewards are earned) -->
+    <section id="secretPanel" class="card secret-panel" hidden>
+      <div class="secret-title">
+        <span class="secret-icon">🔓</span>
+        <h2 data-i18n="secret-panel-title">Super Secret Options</h2>
+        <span class="secret-tag" data-i18n="secret-panel-tag">UNLOCKED</span>
+      </div>
+      <p class="secret-subtitle" data-i18n="secret-panel-subtitle">You unlocked these features through your
+        achievements!</p>
+      <div class="secret-opts">
+        <div id="optCursorLocatorRow" hidden>
+          <label class="secret-opt">
+            <input type="checkbox" id="optCursorLocator">
+            <div>
+              <strong data-i18n="secret-opt-cursorlocator-name">🎯 Cursor Locator</strong>
+              <span data-i18n="secret-opt-cursorlocator-desc">Press the configured keybind to show exactly where you are
+                typing on the page</span>
+            </div>
+          </label>
+          <div id="cursorLocatorKeyRow" class="secret-keybind-row" hidden>
+            <span class="secret-keybind-label" data-i18n="secret-opt-cursorlocator-keybind-label">Keybind</span>
+            <div class="secret-keybind-widget">
+              <input type="text" id="cursorLocatorKeyInput" class="secret-keybind-input" readonly value="Alt+Q">
+              <button id="cursorLocatorRecordBtn" class="btn btn-sm btn-secondary"
+                data-i18n="secret-opt-cursorlocator-record-btn">Record</button>
+            </div>
+          </div>
+        </div>
+        <label class="secret-opt" id="optHighlightRow" hidden>
+          <input type="checkbox" id="optHighlight">
+          <div>
+            <strong data-i18n="secret-opt-highlight-name">✨ Word Highlight</strong>
+            <span data-i18n="secret-opt-highlight-desc">Briefly highlight the corrected word for 1.5 seconds</span>
+          </div>
+        </label>
+        <label class="secret-opt" id="optFlairRow" hidden>
+          <input type="checkbox" id="optFlair">
+          <div>
+            <strong data-i18n="secret-opt-flair-name">🎉 Correction Flair</strong>
+            <span data-i18n="secret-opt-flair-desc">Show a sparkle animation whenever a word is corrected</span>
+          </div>
+        </label>
+        <div id="optWordTrailRow" hidden>
+          <label class="secret-opt">
+            <input type="checkbox" id="optWordTrail">
+            <div>
+              <strong data-i18n="secret-opt-wordtrail-name">🐍 Word Trail</strong>
+              <span data-i18n="secret-opt-wordtrail-desc">Highlights the 5 most recently typed words with decreasing
+                opacity</span>
+              <div id="wordTrailColorRow" hidden>
+                <span data-i18n="secret-opt-wordtrail-color-label">Trail Colour</span>
+                <input type="color" id="wordTrailColorInput" class="secret-color-input" value="#4C90D6">
+              </div>
+            </div>
+          </label>
+          <div id="wordTrailRgbRow" hidden>
+            <label class="secret-opt secret-opt-sub">
+              <input type="checkbox" id="optWordTrailRgb">
+              <div>
+                <strong data-i18n="secret-opt-wordtrail-rgb-name">🌈 Rainbow Mode</strong>
+                <span data-i18n="secret-opt-wordtrail-rgb-desc">Automatically cycles the trail colour with every typed
+                  word</span>
+              </div>
+            </label>
+          </div>
+        </div>
+        <label class="secret-opt" id="optXpBarRow" hidden>
+          <input type="checkbox" id="optXpBar">
+          <div class="xpbar-opt-body">
+            <strong data-i18n="secret-opt-xpbar-name">🏆 Experience &amp; Level Bar</strong>
+            <div class="xpbar-widget" id="xpBarWidget" hidden>
+              <div class="xpbar-track">
+                <div class="xpbar-fill" id="xpBarFill"></div>
+              </div>
+              <span class="xpbar-lvl-display">
+                <span class="xpbar-lvl-label" data-i18n="secret-xpbar-lvl">LVL:</span>
+                <span class="xpbar-lvl-number" id="xpBarLevel">1</span>
+              </span>
+            </div>
+            <span data-i18n="secret-opt-xpbar-desc" id="xpBarDesc">Displays a progress bar and level based on
+              corrections applied</span>
+          </div>
+        </label>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="achievements.js"></script>
+  <script src="sandbox.js"></script>
+</body>
+
+</html>

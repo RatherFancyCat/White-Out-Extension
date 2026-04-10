@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="extension-page-title">Corretor Branco – Lista de Palavras</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+      <img src="icons/icon48.png" alt="" class="logo">
+      <div>
+        <h1 data-i18n="extension-name">Corretor Branco</h1>
+        <p data-i18n="opts-header-sub">Gere a sua lista de correções ortográficas</p>
+      </div>
+      <button id="headerThemeToggle" class="header-theme-toggle" title="Toggle theme">🌙</button>
+    </div>
+  </header>
+  <div class="container">
+
+    <!-- Definições -->
+    <section class="card">
+      <h2 data-i18n="opts-settings-h2">Definições</h2>
+      <div class="settings-list">
+
+        <!-- Language selector -->
+        <div class="setting-item setting-item--block">
+          <label class="setting-label" for="languageSelect" data-i18n="opts-lang-label">Idioma da Interface</label>
+          <span class="setting-desc" data-i18n="opts-lang-desc">Selecione o idioma da interface da extensão.</span>
+          <select id="languageSelect" class="lang-select">
+            <option value="pt">🇵🇹 Português (Portugal)</option>
+            <option value="en">🇬🇧 English</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="zh">🇨🇳 中文</option>
+          </select>
+        </div>
+
+        <label class="setting-item">
+          <input type="checkbox" id="autoCapitalizeChk">
+          <div class="setting-text">
+            <span class="setting-label" data-i18n="opts-autocap-label">Capitalizar automaticamente a primeira palavra de
+              uma frase</span>
+            <span class="setting-desc" data-i18n="opts-autocap-desc">Aplica-se no início de um novo parágrafo ou após um
+              símbolo de fim de frase (como
+              «.», «!» ou «?»).</span>
+          </div>
+        </label>
+
+        <!-- Sub-option: skip-capitalisation keybind (visible only when auto-cap is on) -->
+        <div id="skipCapSection" class="sub-setting-section" hidden>
+          <label class="setting-item">
+            <input type="checkbox" id="skipCapEnabledChk">
+            <div class="setting-text">
+              <span class="setting-label" data-i18n="opts-skipcap-label">Suspender capitalização até ao próximo fim de frase</span>
+              <span class="setting-desc" data-i18n="opts-skipcap-desc">Prima o atalho configurado para ignorar a capitalização automática na frase atual.</span>
+            </div>
+          </label>
+          <div id="skipCapKeyRow" class="keybind-row" hidden>
+            <span class="setting-label keybind-label" data-i18n="opts-skipcap-keybind-label">Atalho de teclado</span>
+            <div class="keybind-widget">
+              <input type="text" id="skipCapKeyInput" class="keybind-input" readonly value="Alt+K">
+              <button id="skipCapRecordBtn" class="btn btn-sm btn-secondary" data-i18n="opts-skipcap-record-btn">Definir</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-item setting-item--block">
+          <label class="setting-label" for="blacklistDomains" data-i18n="opts-blacklist-label">Lista negra de
+            domínios</label>
+          <span class="setting-desc" data-i18n="opts-blacklist-desc">Se a página atual pertencer a um domínio desta
+            lista, a extensão não realizará
+            quaisquer correções. Introduza um domínio por linha (ex: exemplo.com).</span>
+          <textarea id="blacklistDomains" class="domain-textarea" data-i18n-placeholder="opts-blacklist-ph"
+            placeholder="exemplo.com&#10;outrosite.pt" spellcheck="false" autocomplete="off"></textarea>
+          <button id="saveBlacklistBtn" class="btn btn-primary btn-sm" data-i18n="opts-btn-save">Guardar</button>
+        </div>
+        <div class="setting-item setting-item--block">
+          <label class="setting-label" data-i18n="opts-achievements-h2">Achievements</label>
+          <span class="setting-desc" data-i18n="opts-achievements-desc">Track and view your correction
+            milestones.</span>
+          <button id="viewAchievementsBtn" class="btn btn-primary" style="margin-top:12px"
+            data-i18n="secret-btn-view-achievements">🏆 View Achievements</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Importar / Exportar -->
+    <section class="card">
+      <h2 data-i18n="opts-import-h2">Importar / Exportar</h2>
+      <div class="toolbar-buttons">
+        <button id="importBtn" class="btn btn-secondary" data-i18n="opts-btn-import">&#8679; Importar CSV</button>
+        <button id="exportBtn" class="btn btn-secondary" data-i18n="opts-btn-export">&#8681; Exportar CSV</button>
+        <input type="file" id="importFile" accept=".csv" hidden>
+      </div>
+    </section>
+
+    <!-- Adicionar par de palavras -->
+    <section class="card">
+      <h2 data-i18n="opts-add-h2">Adicionar Par de Palavras</h2>
+      <form id="addWordForm" class="add-form" autocomplete="off">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="incorrectWord" data-i18n="opts-incorrect-label">Palavra com erro</label>
+            <input type="text" id="incorrectWord" data-i18n-placeholder="opts-incorrect-ph" placeholder="ex: nao">
+          </div>
+          <span class="form-arrow" aria-hidden="true">&#8594;</span>
+          <div class="form-group">
+            <label for="correctWord" data-i18n="opts-correct-label">Correção</label>
+            <input type="text" id="correctWord" data-i18n-placeholder="opts-correct-ph" placeholder="ex: não">
+          </div>
+          <div class="form-group form-group--format">
+            <label data-i18n="opts-format-label">Formatação</label>
+            <div class="format-toggles">
+              <button type="button" id="fmtBoldBtn" class="btn-fmt" title="Bold" data-i18n-title="opts-format-bold"><b>B</b></button>
+              <button type="button" id="fmtItalicBtn" class="btn-fmt" title="Italic" data-i18n-title="opts-format-italic"><i>I</i></button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" data-i18n="opts-btn-add">Adicionar</button>
+        </div>
+        <p id="addError" class="error-msg" hidden></p>
+      </form>
+    </section>
+
+    <!-- Lista de palavras -->
+    <section class="card">
+      <div class="table-header">
+        <div class="table-title-row">
+          <h2 data-i18n="opts-wordlist-h2">Lista de Palavras</h2>
+          <span id="wordCount" class="badge">0</span>
+        </div>
+        <div class="table-controls">
+          <input type="text" id="searchInput" class="search-input" data-i18n-placeholder="opts-search-ph"
+            placeholder="&#128269; Pesquisar palavras…">
+          <select id="tagFilterSelect" class="tag-filter-select">
+            <option value="all" data-i18n="opts-tag-filter-all">Todas</option>
+          </select>
+          <button id="manageTagsBtn" class="btn btn-secondary btn-sm" data-i18n="opts-tags-manage-btn">🏷 Gerir Etiquetas</button>
+          <button id="clearAllBtn" class="btn btn-danger" data-i18n="opts-btn-clear-all">&#128465; Limpar Tudo</button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="wordTable">
+          <thead>
+            <tr>
+              <th data-i18n="opts-th-incorrect">Palavra com Erro</th>
+              <th data-i18n="opts-th-correct">Correção</th>
+              <th class="col-format" data-i18n="opts-th-format">Formato</th>
+              <th class="col-tag" data-i18n="opts-th-tag">Etiqueta</th>
+              <th class="col-action" data-i18n="opts-th-action">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="wordTableBody"></tbody>
+        </table>
+        <p id="emptyMessage" class="empty-msg" data-i18n="opts-empty-msg">
+          Ainda não foram adicionados pares de palavras. Adicione a primeira correção acima!
+        </p>
+      </div>
+    </section>
+  </div><!-- /.container -->
+
+  <footer class="card">
+    <p>Criado por: Nuno Seca<br>
+      <a href="mailto:nuno.seca@trofasaude.com">Contactar</a>
+    </p>
+    <p>Outros Projetos Publicos: <br>
+      <a href="https://github.com/RatherFancyCat?tab=repositories">Link GitHub</a>
+    </p>
+  </footer>
+
+  <!-- Achievements Modal -->
+  <div id="achievementsModal" class="modal-backdrop" hidden>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 data-i18n="modal-achievements-h2">🏆 Achievements</h2>
+        <button id="closeAchievementsBtn" class="modal-close">✕</button>
+      </div>
+      <div id="achievementsList" class="achievements-list"></div>
+      <div class="modal-footer">
+        <button id="viewRewardsBtn" class="btn btn-primary btn-sm" hidden data-i18n="opts-view-rewards-btn">🎁 View My Rewards</button>
+        <button id="resetAchievementsBtn" class="btn btn-danger btn-sm" data-i18n="secret-btn-reset-achievements">🗑
+          Reset Achievements</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tags Management Modal -->
+  <div id="tagsModal" class="modal-backdrop" hidden>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 data-i18n="modal-tags-h2">🏷 Gerir Etiquetas</h2>
+        <button id="closeTagsModalBtn" class="modal-close">✕</button>
+      </div>
+      <div class="tags-modal-body">
+        <form id="addTagForm" class="tag-new-form" autocomplete="off">
+          <input type="text" id="newTagName" class="tag-name-input" maxlength="30"
+            data-i18n-placeholder="opts-tag-new-name-ph" placeholder="Nome da etiqueta">
+          <input type="color" id="newTagColor" value="#4A90D9">
+          <button type="submit" class="btn btn-primary btn-sm" data-i18n="opts-tag-btn-add">Adicionar</button>
+        </form>
+        <div id="tagsList" class="tags-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tag Picker Popup -->
+  <div id="tagPickerPopup" class="tag-picker-popup" hidden>
+    <div id="tagPickerList"></div>
+  </div>
+
+  <!-- Definition Lookup Popup -->
+  <div id="lookupPopup" class="lookup-popup" hidden>
+    <div class="lookup-popup-header">
+      <span id="lookupPopupWord" class="lookup-popup-word"></span>
+      <button id="closeLookupPopupBtn" class="lookup-close-btn">✕</button>
+    </div>
+    <div id="lookupPopupBody" class="lookup-popup-body"></div>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="achievements.js"></script>
+  <script src="options.js"></script>
+</body>
+
+</html>
