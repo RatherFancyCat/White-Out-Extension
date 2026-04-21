@@ -42,7 +42,7 @@ White-Out Spell Checker is a powerful, customizable spell-checking browser exten
 ## 🎯 How to Use
 
 ### Chrome Web Store Extension
-[Extension on Web Store is in Deployment]
+[[Link to Extension!]](https://chromewebstore.google.com/detail/white-out-spell-checker/fdiadagnneccmgfgddbnnnobgafeodid)
 
 ### Manual Installation
 1. Clone or download this repository
